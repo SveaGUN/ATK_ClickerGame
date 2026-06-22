@@ -1,18 +1,25 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private GameData gameData = null;
+    public GameData GameData { get; private set; } = null;
 
     [SerializeField]
     private PointButton _pointButton = null;
 
     [SerializeField]
-    private TotalPointDisplayer _totalPointDiplayer = null;
+    private PointDisplayer _totalPointDiplayer = null;
+    [SerializeField]
+    private PointPerSecDisplayer _pointPerSecondDiplayer = null;
+    public void SetPPSText() => _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
+
     [SerializeField]
     private TimeLeftDiplayer _timeLeftDiplayer = null;
+    [SerializeField]
+    private PointDisplayer _normaDisplayer = null;
 
     private enum GameState
     {
@@ -33,17 +40,23 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
         else { Destroy(this.gameObject); }
+
+        Application.targetFrameRate = 60;
     }
 
     //=======================デバッグ用===================
-    private float d_introtime = 3f;
+    private float d_introtime = 0.5f;
 
     //=======================デバッグ用 end===================
 
     private void Start()
     {
-        gameData = new GameData(1, 100, 30);
-        _timeLeftDiplayer.SetText(gameData.TimeLeft);
+        //GameData = new GameData(1, 100, 30);
+        GameData = new GameData(1, 999999, 86400);
+        _timeLeftDiplayer.SetText(GameData.TimeLeft);
+        _normaDisplayer.SetText(GameData.NormaPoint);
+        _totalPointDiplayer.SetText(GameData.Point);
+        _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
     }
 
     private void Update()
@@ -54,7 +67,7 @@ public class GameManager : MonoBehaviour
 
                 d_introtime -= Time.deltaTime;
 
-                if(d_introtime <= 0)
+                if (d_introtime <= 0)
                 {
                     Debug.Log("START!!!");
                     OnGameStart();
@@ -64,19 +77,21 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Play:
                 //時間を進める
-                gameData.CountDown(Time.deltaTime);
+                GameData.CountDown(Time.deltaTime);
 
-                _timeLeftDiplayer.SetText(gameData.TimeLeft);
-                _totalPointDiplayer.SetText(gameData.Point);
+                GameData.AddPointPerSecond(Time.deltaTime);
 
-                if (gameData.IsTimeUp())
+                _timeLeftDiplayer.SetText(GameData.TimeLeft);
+                _totalPointDiplayer.SetText(GameData.Point);
+
+                if (GameData.IsTimeUp())
                 {
                     OnGamePassed();
                     _currentState = GameState.GameOver;
                     return;
                 }
 
-                if (gameData.IsNormaClear())
+                if (GameData.IsNormaClear())
                 {
                     OnGamePassed();
                     _currentState = GameState.Clear;
@@ -102,17 +117,17 @@ public class GameManager : MonoBehaviour
     private void OnGameStart()
     {
         //ポイントの加算を有効にする
-        _pointButton.OnClickPointButton += gameData.AddPointOnClick;
+        _pointButton.OnClickPointButton += GameData.AddPointOnClick;
     }
 
     private void OnGamePassed()
     {   //ポイントの加算を無効にする
-        _pointButton.OnClickPointButton -= gameData.AddPointOnClick;
+        _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
 
     }
 
     private void OnDestroy()
     {
-        _pointButton.OnClickPointButton -= gameData.AddPointOnClick;
+        _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
     }
 }

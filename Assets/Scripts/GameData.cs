@@ -1,16 +1,19 @@
 //現在のゲームの進行度を表す
+using System;
+
+[Serializable]
 public class GameData
 {
-    public uint Point { get; private set; } = 0;
-    public uint GetPointPerSecond { get; set; } = 0;
-    public uint ClickPoint { get; private set; } = 0;
+    public float Point { get; private set; } = 0f;
+    public float PointPerSecond { get; set; } = 0f;
+    public float ClickPoint { get; private set; } = 0f;
 
-    //n秒
+    // n秒
     public float TimeLimit { get; private set; } = 0f;
-    //残り時間 カウントダウン方式
+    // 残り時間 カウントダウン方式
     public float TimeLeft { get; set; } = 0f;
-    //n pt
-    public uint NormaPoint { get; set; } = 0;
+    // n pt
+    public float NormaPoint { get; set; } = 0f;
 
     /// <summary>
     /// ゲームデータを初期化する
@@ -18,7 +21,7 @@ public class GameData
     /// <param name="clickPoint">初期クリック値</param>
     /// <param name="normaPoint">ポイントのノルマ</param>
     /// <param name="timeLimit">制限時間(s)</param>
-    public GameData(uint clickPoint, uint normaPoint, float timeLimit)
+    public GameData(float clickPoint, float normaPoint, float timeLimit)
     {
         ClickPoint = clickPoint;
         NormaPoint = normaPoint;
@@ -27,14 +30,10 @@ public class GameData
         TimeLeft = TimeLimit;
     }
 
-    /// <summary>
-    /// 制限時間を設定する
-    /// ゲームが新しく始まるときに呼び出す
-    /// </summary>
-    /// <param name="timeLimit"></param>
-    public void SetTimeLimit(float timeLimit)
+    public void SetNewNorma(float normaPoint, float timeLimit)
     {
         TimeLimit = timeLimit;
+        NormaPoint = normaPoint;
 
         TimeLeft = TimeLimit;
     }
@@ -45,8 +44,23 @@ public class GameData
     /// <param name="deltaTime"></param>
     public void CountDown(float deltaTime) => TimeLeft -= deltaTime;
 
-    public void AddPoint(uint point) => Point += point;
+    //====================ポイント計算関数====================
+    public void ClacAddPoint(float point) => Point += point;
+    public void ClacSubtractPoint(float point) => Point -= point;
+    public void CalcAddPointPerSecond(float pps) => PointPerSecond += pps;
+
+    //======================================================
+
+    //====================ポイント加算関数====================
     public void AddPointOnClick() => Point += ClickPoint;
+    /// <summary>
+    /// 毎秒得られるポイントを加算する
+    /// 小数点以下はそのまま保持
+    /// </summary>
+    /// <param name="deltaTime"></param>
+    public void AddPointPerSecond(float deltaTime) => Point += PointPerSecond * deltaTime;
+
+    //=====================================================
 
     /// <summary>
     /// ノルマをクリアしたかどうか
@@ -54,5 +68,5 @@ public class GameData
     /// <returns></returns>
     public bool IsNormaClear() => Point >= NormaPoint;
 
-    public bool IsTimeUp() => TimeLeft <= 0;
+    public bool IsTimeUp() => TimeLeft <= 0f;
 }
