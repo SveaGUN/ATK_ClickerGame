@@ -3967,7 +3967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Norma
+  m_text: "\u30CE\u30EB\u30DE"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9172894f6cff815418d18d24eeab2fca, type: 2}
   m_sharedMaterial: {fileID: 8467738896026276670, guid: 9172894f6cff815418d18d24eeab2fca, type: 2}
