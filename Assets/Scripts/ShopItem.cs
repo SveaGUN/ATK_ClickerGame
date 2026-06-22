@@ -16,6 +16,8 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField]
     private TextMeshProUGUI _itemCountText = null;
     [SerializeField]
+    private TextMeshProUGUI _ppsText = null;
+    [SerializeField]
     private TextMeshProUGUI _costText = null;
 
     private Button _button = null;
@@ -26,6 +28,7 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         _nameText.SetText(_data.ItemName);
         _itemCountText.SetText(_itemCount.ToString());
+        _ppsText.SetText(_data.PointPerSecond.ToString());
         _costText.SetText(_data.ClacCost(_itemCount).ToString());
 
         _button.onClick.AddListener(TryBuy);
