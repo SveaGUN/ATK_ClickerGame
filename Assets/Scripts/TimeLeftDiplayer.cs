@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class TimeLeftDiplayer : TextDisplayer
 {
     public void SetText(float timeLeft)
