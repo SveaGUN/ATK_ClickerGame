@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +5,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public GameData GameData { get; private set; } = null;
+
+    [SerializeField]
+    private LevelData _leveData = null;
+    private LevelController _levelController = null;
 
     [SerializeField]
     private PointButton _pointButton = null;
@@ -25,6 +28,7 @@ public class GameManager : MonoBehaviour
     {
         Intro,
         Play,
+        PreparePlay,
         GameOver,
         Clear,
         Pause
@@ -37,9 +41,9 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
-        else { Destroy(this.gameObject); }
+        else { Destroy(gameObject); }
 
         Application.targetFrameRate = 60;
     }
@@ -51,8 +55,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //GameData = new GameData(1, 100, 30);
-        GameData = new GameData(1, 999999, 86400);
+        _levelController = new(_leveData);
+        _levelController.SetStartPhase();
+
+        GameData = new GameData(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
+        //GameData = new GameData(1, 999999, 86400);
+
         _timeLeftDiplayer.SetText(GameData.TimeLeft);
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
@@ -94,11 +102,18 @@ public class GameManager : MonoBehaviour
                 if (GameData.IsNormaClear())
                 {
                     OnGamePassed();
-                    _currentState = GameState.Clear;
+
+                    //最終ラウンドではClear
+                    //それ以外はPreparePlay
+                    if (_levelController.IsFinalPhase()) { _currentState = GameState.Clear; }
+                    else { _currentState = GameState.PreparePlay; }
+
                     return;
                 }
 
 
+                break;
+            case GameState.PreparePlay:
                 break;
             case GameState.GameOver:
                 Debug.Log("GameOver");

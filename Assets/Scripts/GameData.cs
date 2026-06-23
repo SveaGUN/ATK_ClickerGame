@@ -21,7 +21,7 @@ public class GameData
     /// <param name="clickPoint">初期クリック値</param>
     /// <param name="normaPoint">ポイントのノルマ</param>
     /// <param name="timeLimit">制限時間(s)</param>
-    public GameData(float clickPoint, float normaPoint, float timeLimit)
+    public GameData(float normaPoint, float timeLimit, float clickPoint = 1)
     {
         ClickPoint = clickPoint;
         NormaPoint = normaPoint;
