@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -61,10 +62,12 @@ public class GameManager : MonoBehaviour
         GameData = new GameData(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
         //GameData = new GameData(1, 999999, 86400);
 
-        _timeLeftDiplayer.SetText(GameData.TimeLeft);
+        _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
         _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
+
+        StartCoroutine(Intro());
     }
 
     private void Update()
@@ -72,15 +75,6 @@ public class GameManager : MonoBehaviour
         switch (_currentState)
         {
             case GameState.Intro:
-
-                d_introtime -= Time.deltaTime;
-
-                if (d_introtime <= 0)
-                {
-                    Debug.Log("START!!!");
-                    OnGameStart();
-                    _currentState = GameState.Play;
-                }
 
                 break;
             case GameState.Play:
@@ -144,5 +138,40 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
+    }
+
+    private IEnumerator Intro()
+    {
+        const float animTime = 3f;
+        float addTimePerSecond = GameData.TimeLimit / animTime;
+
+        const int soundPlayNum = 10;//animTimeのうち何回音を鳴らすか
+        float soundPlayTime = animTime / soundPlayNum;//音を鳴らす間隔
+
+        float countUpTimeLimit = 0f;
+        float currentAnimTime = 0f;
+        float soundTimer = 0f;
+
+        while (animTime > currentAnimTime)
+        {
+            countUpTimeLimit += addTimePerSecond * Time.deltaTime;
+            _timeLeftDiplayer.SetText(countUpTimeLimit);
+
+            if(soundTimer >= soundPlayTime)
+            {
+                //todo ---seの再生呼び出し---
+                Debug.Log("se");
+
+                soundTimer = 0f;
+            }
+
+            currentAnimTime += Time.deltaTime;
+            soundTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        _timeLeftDiplayer.SetText(GameData.TimeLimit);
+        OnGameStart();
+        _currentState = GameState.Play;
     }
 }
