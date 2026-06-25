@@ -2971,6 +2971,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7706057275111955898, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: m_Name
       value: AudioPlayer
