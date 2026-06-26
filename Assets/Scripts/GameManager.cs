@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PointDisplayer _normaDisplayer = null;
 
+    [SerializeField]
+    private UIBlockInteractable _uiBlockInteractable = null;
+
     private enum GameState
     {
         Intro,
@@ -51,16 +54,18 @@ public class GameManager : MonoBehaviour
     }
 
     //=======================デバッグ用===================
-    private float d_introtime = 0.5f;
+
 
     //=======================デバッグ用 end===================
 
     private void Start()
     {
+        _uiBlockInteractable.Init();
+
         _levelController = new(_leveData);
         _levelController.SetStartPhase();
 
-        GameData = new GameData(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
+        GameData = new(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
         //GameData = new GameData(1, 999999, 86400);
 
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
@@ -126,14 +131,16 @@ public class GameManager : MonoBehaviour
     //ゲームが始まった時の処理
     private void OnGameStart()
     {
+        _uiBlockInteractable.SetActive(false);
         //ポイントの加算を有効にする
         _pointButton.OnClickPointButton += GameData.AddPointOnClick;
     }
 
     private void OnGamePassed()
-    {   //ポイントの加算を無効にする
+    {
+        _uiBlockInteractable.SetActive(true);
+        //ポイントの加算を無効にする
         _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
-
     }
 
     private void OnDestroy()
@@ -158,7 +165,7 @@ public class GameManager : MonoBehaviour
             countUpTimeLimit += addTimePerSecond * Time.deltaTime;
             _timeLeftDiplayer.SetText(countUpTimeLimit);
 
-            if(soundTimer >= soundPlayTime)
+            if (soundTimer >= soundPlayTime)
             {
                 AudioManager.Instance.PlaySE("CountUp");
 
