@@ -3051,6 +3051,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _bgmClipsDict._keyValueList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: _seClipsDict._keyValueList.Array.data[0]._key
       value: CountUp
       objectReference: {fileID: 0}
@@ -3065,6 +3069,10 @@ PrefabInstance:
     - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: _seClipsDict._keyValueList.Array.data[3]._key
       value: ClickPointButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _bgmClipsDict._keyValueList.Array.data[0]._key
+      value: Main
       objectReference: {fileID: 0}
     - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: _seClipsDict._keyValueList.Array.data[0]._value
@@ -3082,6 +3090,10 @@ PrefabInstance:
       propertyPath: _seClipsDict._keyValueList.Array.data[3]._value
       value: 
       objectReference: {fileID: 8300000, guid: a1c43890a93107e449d816011ccdc4d4, type: 3}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _bgmClipsDict._keyValueList.Array.data[0]._value
+      value: 
+      objectReference: {fileID: 8300000, guid: 4b94337a26819dc408585c61e64664d6, type: 3}
     - target: {fileID: 7706057275111955898, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: m_Name
       value: AudioPlayer

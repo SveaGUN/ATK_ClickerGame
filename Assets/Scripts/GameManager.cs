@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
         _totalPointDiplayer.SetText(GameData.Point);
         _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
 
+        _pointButton.OnClickPointButton += GameData.AddPointOnClick;
+
         StartCoroutine(Intro());
     }
 
@@ -131,16 +133,13 @@ public class GameManager : MonoBehaviour
     //ゲームが始まった時の処理
     private void OnGameStart()
     {
+        AudioManager.Instance.PlayBGM("Main", 0.5f);
         _uiBlockInteractable.SetActive(false);
-        //ポイントの加算を有効にする
-        _pointButton.OnClickPointButton += GameData.AddPointOnClick;
     }
 
     private void OnGamePassed()
     {
         _uiBlockInteractable.SetActive(true);
-        //ポイントの加算を無効にする
-        _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
     }
 
     private void OnDestroy()
@@ -176,6 +175,9 @@ public class GameManager : MonoBehaviour
             soundTimer += Time.deltaTime;
             yield return null;
         }
+
+        //すぐに始めずちょっとだけ待機
+        yield return new WaitForSeconds(0.5f);
 
         _timeLeftDiplayer.SetText(GameData.TimeLimit);
         OnGameStart();

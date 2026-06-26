@@ -78,7 +78,7 @@ namespace AkaneTools
         /// BGMを再生する。フェード中は再生できない
         /// </summary>
         /// <param name="bgmName">BGM名</param>
-        public void PlayBGM(string bgmName)
+        public void PlayBGM(string bgmName, float volume = 1f)
         {
             if (!_bgmClipsDict.ContainsKey(bgmName))
             {
@@ -97,6 +97,7 @@ namespace AkaneTools
 
             //BGMを再生する
             _bgmSource.clip = _bgmClipsDict.GetElement(bgmName);
+            _bgmSource.volume = volume;
             _bgmSource.Play();
         }
 
@@ -149,32 +150,36 @@ namespace AkaneTools
         /// </remarks>
         /// <param name="fadeInAmount">値が大きいほど、早くフェードインする</param>
         /// <param name="bgmName">BGM名</param>
+        /// <param name="targetVolume"></param>
         /// <param name="callback">フェードイン後に実行する関数</param>
-        public void FadeInBGM(float fadeInAmount, string bgmName = null, Action callback = null)
+        public void FadeInBGM(float fadeInAmount, string bgmName = null, float targetVolume = 1, Action callback = null)
         {
+            if (targetVolume > 1) { targetVolume = 1; }
+            else if (targetVolume <= 0) { targetVolume = 0; }
+
             _bgmSource.volume = 0;
 
-            if (!string.IsNullOrEmpty(bgmName)) { PlayBGM(bgmName); }
+            if (!string.IsNullOrEmpty(bgmName)) { PlayBGM(bgmName, targetVolume); }
 
             //フェードイン開始
             _isBgmFading = true;
-            StartCoroutine(OnFadeInBGM(fadeInAmount, callback));
+            StartCoroutine(OnFadeInBGM(fadeInAmount, targetVolume, callback));
         }
 
         //BGMをフェードインさせる
-        private IEnumerator OnFadeInBGM(float fadeInAmount, Action callback)
+        private IEnumerator OnFadeInBGM(float fadeInAmount, float volume, Action callback)
         {
             Debug.Log("BGMフェードイン開始");
 
             //フェードイン
-            while (_bgmSource.volume < 1)
+            while (_bgmSource.volume < volume)
             {
                 _bgmSource.volume += fadeInAmount * Time.deltaTime;
                 yield return null;
             }
 
-            //音量を最大にする
-            _bgmSource.volume = 1;
+            //音量を指定した音量にする
+            _bgmSource.volume = volume;
 
             //フェードイン終了
             _isBgmFading = false;
@@ -191,24 +196,31 @@ namespace AkaneTools
         /// <param name="fadeOutAmount">値が大きいほど、早くフェードアウトする</param>
         /// <param name="isStop">フェードアウト時に、BGMを停止するか</param>
         /// <param name="callback">フェードアウト後に実行する関数</param>
-        public void FadeOutBGM(float fadeOutAmount, bool isStop = true, Action callback = null)
+        public void FadeOutBGM(float fadeOutAmount, bool isStop = true, float targetVolume = 0, Action callback = null)
         {
+            if (targetVolume > _bgmSource.volume)
+            {
+                Debug.LogWarning("targetVolume は _bgmSource.volume以下にしてください");
+                return;
+            }
+            else if (targetVolume < 0) { targetVolume = 0; }
+
             //フェードアウト開始
             _isBgmFading = true;
-            StartCoroutine(OnFadeOutBGM(fadeOutAmount, isStop, callback));
+            StartCoroutine(OnFadeOutBGM(fadeOutAmount, isStop, targetVolume, callback));
         }
 
         //BGMをフェードアウトさせる
-        private IEnumerator OnFadeOutBGM(float fadeOutAmount, bool isStop, Action callback)
+        private IEnumerator OnFadeOutBGM(float fadeOutAmount, bool isStop, float volume, Action callback)
         {
             //フェードアウト
-            while (_bgmSource.volume > 0)
+            while (_bgmSource.volume > volume)
             {
                 _bgmSource.volume -= fadeOutAmount * Time.deltaTime;
                 yield return null;
             }
 
-            _bgmSource.volume = 0;
+            _bgmSource.volume = volume;
 
             if (isStop) { _bgmSource.Stop(); }
 
@@ -226,7 +238,7 @@ namespace AkaneTools
         /// SEを再生する
         /// </summary>
         /// <param name="seName">SE名</param>
-        public void PlaySE(string seName)
+        public void PlaySE(string seName, float volume = 1)
         {
             if (!_seClipsDict.ContainsKey(seName))
             {
@@ -235,7 +247,7 @@ namespace AkaneTools
             }
 
             //SEを再生する
-            _seSource.PlayOneShot(_seClipsDict.GetElement(seName));
+            _seSource.PlayOneShot(_seClipsDict.GetElement(seName), volume);
         }
 
         /// <summary>
