@@ -1,3 +1,4 @@
+using AkaneTools;
 using System.Collections;
 using UnityEngine;
 
@@ -142,10 +143,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Intro()
     {
-        const float animTime = 3f;
+        const float animTime = 2f;
         float addTimePerSecond = GameData.TimeLimit / animTime;
 
-        const int soundPlayNum = 10;//animTime‚Ì‚¤‚¿‰½‰ñ‰¹‚ğ–Â‚ç‚·‚©
+        int soundPlayNum = 20;//animTime‚Ì‚¤‚¿‰½‰ñ‰¹‚ğ–Â‚ç‚·‚©
         float soundPlayTime = animTime / soundPlayNum;//‰¹‚ğ–Â‚ç‚·ŠÔŠu
 
         float countUpTimeLimit = 0f;
@@ -159,8 +160,7 @@ public class GameManager : MonoBehaviour
 
             if(soundTimer >= soundPlayTime)
             {
-                //todo ---se‚ÌÄ¶ŒÄ‚Ño‚µ---
-                Debug.Log("se");
+                AudioManager.Instance.PlaySE("CountUp");
 
                 soundTimer = 0f;
             }

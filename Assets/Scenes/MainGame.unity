@@ -2973,8 +2973,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: _seClipsDict._keyValueList.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.data[0]._key
+      value: CountUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.data[1]._key
+      value: BuyItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.data[2]._key
+      value: CantBuyItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.data[0]._value
+      value: 
+      objectReference: {fileID: 8300000, guid: a51f4a3f07abbf342ae56422d391f852, type: 3}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.data[1]._value
+      value: 
+      objectReference: {fileID: 8300000, guid: c476e889801bc344cb50bd7415ad70a5, type: 3}
+    - target: {fileID: 6698327382501558890, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
+      propertyPath: _seClipsDict._keyValueList.Array.data[2]._value
+      value: 
+      objectReference: {fileID: 8300000, guid: 2a8d347797e61e34c859c0acb60f99b1, type: 3}
     - target: {fileID: 7706057275111955898, guid: 24cbea4bce7577349aa70d96ce267123, type: 3}
       propertyPath: m_Name
       value: AudioPlayer

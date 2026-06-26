@@ -1,3 +1,4 @@
+using AkaneTools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -41,13 +42,14 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (needCost > gameData.Point)
         {
-            Debug.Log("‚¤‚í[‚ñ”ƒ‚¦‚È‚¢‚æ```");
+            AudioManager.Instance.PlaySE("CantBuyItem");
             return;
         }
 
         //w“ü•ªƒ|ƒCƒ“ƒg‚ğÁ”ï‚·‚é
         gameData.ClacSubtractPoint(needCost);
         ++_itemCount;
+        AudioManager.Instance.PlaySE("BuyItem");
 
         _currentTotalPointPerSecond += _data.PointPerSecond;
 

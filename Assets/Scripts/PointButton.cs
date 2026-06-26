@@ -1,3 +1,4 @@
+using AkaneTools;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ public class PointButton : MonoBehaviour
     private void OnClick()
     {
         OnClickPointButton?.Invoke();
+
+        AudioManager.Instance.PlaySE("ClickPointButton");
     }
 
     private void OnDestroy()
