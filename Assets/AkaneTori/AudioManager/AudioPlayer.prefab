@@ -48,9 +48,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bgmClipsDict:
-    _keyValueList: []
+    _keyValueList:
+    - _key: Main
+      _value: {fileID: 8300000, guid: 4b94337a26819dc408585c61e64664d6, type: 3}
+    - _key: Title
+      _value: {fileID: 8300000, guid: 8314c39028aa95c43be8aff736296bcb, type: 3}
   _seClipsDict:
-    _keyValueList: []
+    _keyValueList:
+    - _key: CountUp
+      _value: {fileID: 8300000, guid: a51f4a3f07abbf342ae56422d391f852, type: 3}
+    - _key: BuyItem
+      _value: {fileID: 8300000, guid: c476e889801bc344cb50bd7415ad70a5, type: 3}
+    - _key: CantBuyItem
+      _value: {fileID: 8300000, guid: 2a8d347797e61e34c859c0acb60f99b1, type: 3}
+    - _key: ClickPointButton
+      _value: {fileID: 8300000, guid: a1c43890a93107e449d816011ccdc4d4, type: 3}
   _uiClipsDict:
     _keyValueList: []
   _bgmSource: {fileID: 1175352549287661820}
