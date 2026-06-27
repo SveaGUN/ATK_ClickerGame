@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21268da52ea4da345bcb456d0d9884d8, type: 3}
+  m_Name: DoubleClick
+  m_EditorClassIdentifier: Assembly-CSharp::ClickPointItemData
+  _itemName: "\u30AF\u30EA\u30C3\u30AF\u500D\u5316"
+  _discription: "\u30AF\u30EA\u30C3\u30AF\u6BCE\u306E\\n\u7372\u5F97\u30DD\u30A4\u30F3\u30C8
+    \xD72\\n3\u56DE\u307E\u3067\u8CFC\u5165\u53EF\u80FD"
+  _baseCost: 1000
+  _costGrowthRate: 3
+  _addClickPoint: 0
+  _multiplyClickPoint: 2
+  _maxBuyCount: 3

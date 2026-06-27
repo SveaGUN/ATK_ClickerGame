@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3200d7f9b5e8fa4ca611a0e4f444c6c, type: 3}
-  m_Name: AA_Click
+  m_Name: AE_NekoChan
   m_EditorClassIdentifier: Assembly-CSharp::AddPointItemData
-  _itemName: "\u30AF\u30EA\u30C3\u30AF"
-  _baseCost: 10
-  _costGrowthRate: 1.1
-  _pointPerSecond: 0.1
+  _itemName: "\u767A\u96FB\u6240"
+  _baseCost: 12000
+  _costGrowthRate: 1.15
+  _pointPerSecond: 32

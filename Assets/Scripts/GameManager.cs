@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PointDisplayer _totalPointDiplayer = null;
     [SerializeField]
-    private PointPerSecDisplayer _pointPerSecondDiplayer = null;
-    public void SetPPSText() => _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
+    private PointPerSecDisplayer _factoryPointDiplayer = null;
+    public void SetPPSText() => _factoryPointDiplayer.SetText(GameData.FactoryPoint);
 
     [SerializeField]
     private TimeLeftDiplayer _timeLeftDiplayer = null;
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
-        _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
+        _factoryPointDiplayer.SetText(GameData.FactoryPoint);
 
         //イベント登録
         _pointButton.OnClickPointButton += GameData.AddPointOnClick;
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
                 //時間を進める
                 GameData.CountDown(Time.deltaTime);
 
-                GameData.AddPointPerSecond(Time.deltaTime);
+                GameData.AddFactoryPoint(Time.deltaTime);
 
                 _timeLeftDiplayer.SetText(GameData.TimeLeft);
                 _totalPointDiplayer.SetText(GameData.Point);
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
-        _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
+        _factoryPointDiplayer.SetText(GameData.FactoryPoint);
 
         _preparePlayUI.Hide();
 

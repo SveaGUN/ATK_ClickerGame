@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3684f2b3b536744788ca25c98c7f4e5, type: 3}
+  m_Name: EnhanceFactoryItemData
+  m_EditorClassIdentifier: Assembly-CSharp::EnhanceFactoryItemData
+  _itemName: "\u51FA\u529B\u5F37\u5316"
+  _discription: "\u6BCE\u79D2\u7372\u5F97\u30DD\u30A4\u30F3\u30C8\u3092\\,+25%\u30A2\u30C3\u30D7\\n4\u56DE\u307E\u3067\u8CFC\u5165\u53EF\u80FD"
+  _baseCost: 500
+  _costGrowthRate: 3
+  _outputEnhanceRate: 1.25
+  _maxBuyCount: 4

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3200d7f9b5e8fa4ca611a0e4f444c6c, type: 3}
-  m_Name: AC_Takumi
+  m_Name: AF_Godot
   m_EditorClassIdentifier: Assembly-CSharp::AddPointItemData
-  _itemName: "\u5320"
-  _baseCost: 1600
-  _costGrowthRate: 1.08
-  _pointPerSecond: 13
+  _itemName: "\u3059\u308A\u3053\u307F\u767A\u96FB"
+  _baseCost: 60000
+  _costGrowthRate: 1.15
+  _pointPerSecond: 140

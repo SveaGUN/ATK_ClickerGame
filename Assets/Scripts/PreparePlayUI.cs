@@ -99,7 +99,7 @@ public class PreparePlayUI : UIMonoBehaviour
     {
         _pointDisplayer.SetText(GameManager.Instance.GameData.Point);
         _clickPointDisplayer.SetText(GameManager.Instance.GameData.ClickPoint);
-        _ppsDisplayer.SetText(GameManager.Instance.GameData.PointPerSecond);
+        _ppsDisplayer.SetText(GameManager.Instance.GameData.FactoryPoint);
     }
 
     private void OnDestroy()

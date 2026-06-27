@@ -6,7 +6,9 @@ public class GameData
 {
     public float Point { get; private set; } = 0f;
     public float PointPerSecond { get; private set; } = 0f;
+    public float FactoryPoint { get; private set; } = 0f;
     public float ClickPoint { get; private set; } = 0f;
+    public float OutputFactoryRate { get; private set; } = 1f;
 
     // n秒
     public float TimeLimit { get; private set; } = 0f;
@@ -49,8 +51,16 @@ public class GameData
     //====================ポイント計算関数====================
     public void ClacAddPoint(float point) => Point += point;
     public void ClacSubtractPoint(float point) => Point -= point;
-    public void CalcAddPointPerSecond(float pps) => PointPerSecond += pps;
-
+    public void CalcAddPointPerSecond(float pps)
+    {
+        PointPerSecond += pps;
+        FactoryPoint = PointPerSecond * OutputFactoryRate;
+    }
+    public void CalcAddFactoryRate(float rate)
+    {
+        OutputFactoryRate += rate - 1f;
+        FactoryPoint = PointPerSecond * OutputFactoryRate;
+    } 
     //======================================================
 
     //====================ポイント加算関数====================
@@ -60,7 +70,7 @@ public class GameData
     /// 小数点以下はそのまま保持
     /// </summary>
     /// <param name="deltaTime"></param>
-    public void AddPointPerSecond(float deltaTime) => Point += PointPerSecond * deltaTime;
+    public void AddFactoryPoint(float deltaTime) => Point += FactoryPoint * deltaTime;
 
     //=====================================================
 
