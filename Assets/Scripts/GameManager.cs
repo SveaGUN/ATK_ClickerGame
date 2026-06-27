@@ -1,6 +1,9 @@
 using AkaneTools;
+using AkaneUtility;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -49,16 +52,23 @@ public class GameManager : MonoBehaviour
 
     private GameState _currentState = GameState.Intro;
 
+    [SerializeField]
+    private Image _transitionImage = null;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else { Destroy(gameObject); }
 
         Application.targetFrameRate = 60;
+
+        //繊維
+        var col = _transitionImage.color;
+        col.a = 0f;
+        _transitionImage.color = col;
+        _transitionImage.enabled = false;
     }
 
     //=======================デバッグ用===================
@@ -91,6 +101,8 @@ public class GameManager : MonoBehaviour
         _preparePlayUI.OnClickStartButton += NextPhase;
         _gameoverUI.OnClickRetryButton += Retry;
         _gameclearUI.OnClickRetryButton += Retry;
+        _gameoverUI.OnClickTitleButton += Title;
+        _gameclearUI.OnClickTitleButton += Title;
 
         //イントロ開始
         StartCoroutine(PhaseStartIntro());
@@ -138,10 +150,8 @@ public class GameManager : MonoBehaviour
             case GameState.PreparePlay:
                 break;
             case GameState.GameOver:
-                Debug.Log("GameOver");
                 break;
             case GameState.Clear:
-                Debug.Log("Clear");
                 break;
             case GameState.Pause:
                 break;
@@ -223,12 +233,19 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PhaseStartIntro(1f));
     }
 
-    private void OnDestroy()
+    private void Title()
     {
         _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
+        StartCoroutine(LoadScene());
+    }
+
+    private void OnDestroy()
+    {
         _preparePlayUI.OnClickStartButton -= NextPhase;
         _gameoverUI.OnClickRetryButton -= Retry;
         _gameclearUI.OnClickRetryButton -= Retry;
+        _gameoverUI.OnClickTitleButton -= Title;
+        _gameclearUI.OnClickTitleButton -= Title;
     }
 
     private IEnumerator PhaseStartIntro(float waitTime = 0f)
@@ -268,5 +285,33 @@ public class GameManager : MonoBehaviour
         _timeLeftDiplayer.SetText(GameData.TimeLimit);
         OnPhaseStart();
         _currentState = GameState.Play;
+    }
+
+    private IEnumerator LoadScene()
+    {
+        _transitionImage.enabled = true;
+        AudioManager.Instance.FadeOutBGM(0.5f);
+
+        float animTime = 2.1f;
+        float invAnimTime = 1 / animTime;
+        float currentTime = 0f;
+
+        yield return null;
+
+        while (currentTime <= animTime)
+        {
+            float amount = currentTime * invAnimTime;
+
+            float t = 1 - EasingUtility.EaseOutQuart(amount);
+
+            var col = _transitionImage.color;
+            col.a = amount;
+            _transitionImage.color = col;
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        SceneManager.LoadScene("TitleScene");
     }
 }

@@ -31,5 +31,6 @@ namespace AkaneUtility
                 return n1 * x * x + 0.984375f;
             }
         }
+        public static float EaseInSine(float x) => 1 - MathF.Cos(x * MathF.PI * 0.5f);
     }
 }
