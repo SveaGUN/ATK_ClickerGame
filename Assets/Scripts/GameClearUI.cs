@@ -34,7 +34,7 @@ public class GameClearUI : UIMonoBehaviour
 
     public void Show()
     {
-        rectTransform.anchoredPosition = new Vector2(0, Screen.height);
+        rectTransform.anchoredPosition = new Vector2(0, Screen.height * 2);
         SetActive(true);
         SetButtonInteractable(true);
 

@@ -70,7 +70,7 @@ public class PreparePlayUI : UIMonoBehaviour
         float animTime = 1f;
         float currentTime = 0f;
 
-        float startY = rectTransform.anchoredPosition.y, endY = -Screen.height;
+        float startY = rectTransform.anchoredPosition.y, endY = -(Screen.height * 2);
 
         yield return null;
 
