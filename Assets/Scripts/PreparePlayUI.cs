@@ -1,22 +1,84 @@
 using AkaneTools;
+using AkaneUtility;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PreparePlayUI : MonoBehaviour
+public class PreparePlayUI : UIMonoBehaviour
 {
+
     [SerializeField]
     private Button _phaseStartButton = null;
 
     public event Action OnClickStartButton;
 
-    public void Init()
+    protected override void OnInit()
     {
         _phaseStartButton.onClick.AddListener(OnClick);
+        _phaseStartButton.interactable = false;
+
         SetActive(false);
     }
 
     public void SetActive(bool value) => gameObject.SetActive(value);
+
+    public void Show()
+    {
+        rectTransform.anchoredPosition = new Vector2(0, Screen.height);
+        SetActive(true);
+        _phaseStartButton.interactable = true;
+
+        StartCoroutine(ShowAnim());
+    }
+
+    private IEnumerator ShowAnim()
+    {
+        float animTime = 1f;
+        float currentTime = 0f;
+
+        float startY = rectTransform.anchoredPosition.y, endY = 0;
+
+        yield return null;
+
+        while(currentTime <= animTime)
+        {
+            var pos = rectTransform.anchoredPosition;
+            pos.y = Mathf.Lerp(startY, endY, EasingUtility.EaseOutQuart(currentTime));
+            rectTransform.anchoredPosition = pos;
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public void Hide()
+    {
+        StartCoroutine(HideAnim());
+    }
+
+    private IEnumerator HideAnim()
+    {
+        float animTime = 1f;
+        float currentTime = 0f;
+
+        float startY = rectTransform.anchoredPosition.y, endY = -Screen.height;
+
+        yield return null;
+
+        while (currentTime <= animTime)
+        {
+            var pos = rectTransform.anchoredPosition;
+            pos.y = Mathf.Lerp(startY, endY, EasingUtility.EaseOutQuart(currentTime));
+            rectTransform.anchoredPosition = pos;
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        _phaseStartButton.interactable = false;
+        SetActive(false);
+    }
 
     private void OnClick()
     {

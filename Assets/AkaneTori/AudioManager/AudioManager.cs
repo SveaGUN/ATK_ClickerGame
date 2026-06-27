@@ -39,6 +39,8 @@ namespace AkaneTools
 
         public bool IsFading { get => _isBgmFading; }
 
+        public bool IsBGMPlaying {  get => _bgmSource.isPlaying; }
+
         [SerializeField]
         private AudioMixer _audiMixer = null;
 

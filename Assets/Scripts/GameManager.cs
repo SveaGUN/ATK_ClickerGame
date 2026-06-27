@@ -135,7 +135,8 @@ public class GameManager : MonoBehaviour
     //ゲームが始まった時の処理
     private void OnPhaseStart()
     {
-        AudioManager.Instance.PlayBGM("Main", 0.5f);
+        if (!AudioManager.Instance.IsBGMPlaying) { AudioManager.Instance.PlayBGM("Main", 0.5f); }
+
         _uiBlockInteractable.SetActive(false);
     }
 
@@ -147,7 +148,7 @@ public class GameManager : MonoBehaviour
         else { _currentState = GameState.PreparePlay; }
 
         _uiBlockInteractable.SetActive(true);
-        _preparePlayUI.SetActive(true);
+        _preparePlayUI.Show();
     }
 
     private void NextPhase()
@@ -158,7 +159,7 @@ public class GameManager : MonoBehaviour
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
 
-        _preparePlayUI.SetActive(false);
+        _preparePlayUI.Hide();
 
         //イントロ開始
         StartCoroutine(PhaseStartIntro());
