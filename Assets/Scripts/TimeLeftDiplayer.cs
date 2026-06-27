@@ -1,6 +1,6 @@
-public class TimeLeftDiplayer : TextDisplayer
+public class TimeLeftDiplayer : TextDisplayer<float>
 {
-    public void SetText(float timeLeft)
+    public override void SetText(float timeLeft)
     {
         _text.SetText(timeLeft.ToString("#"));
     }

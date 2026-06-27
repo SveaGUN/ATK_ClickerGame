@@ -5,7 +5,7 @@ using System;
 public class GameData
 {
     public float Point { get; private set; } = 0f;
-    public float PointPerSecond { get; set; } = 0f;
+    public float PointPerSecond { get; private set; } = 0f;
     public float ClickPoint { get; private set; } = 0f;
 
     // n•b
@@ -43,6 +43,8 @@ public class GameData
     /// </summary>
     /// <param name="deltaTime"></param>
     public void CountDown(float deltaTime) => TimeLeft -= deltaTime;
+
+    public void SetClickPoint(float clickPoint) => ClickPoint = clickPoint;
 
     //====================ƒ|ƒCƒ“ƒgŒvŽZŠÖ”====================
     public void ClacAddPoint(float point) => Point += point;

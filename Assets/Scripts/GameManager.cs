@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private UIBlockInteractable _uiBlockInteractable = null;
     [SerializeField]
     private PreparePlayUI _preparePlayUI = null;
+    public void UpdatePPUIText() => _preparePlayUI.UpdateTexts();
 
     private enum GameState
     {

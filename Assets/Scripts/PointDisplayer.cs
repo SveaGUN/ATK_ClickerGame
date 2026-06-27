@@ -1,6 +1,6 @@
-public class PointDisplayer : TextDisplayer
+public class PointDisplayer : TextDisplayer<float>
 {
-    public void SetText(float point)
+    public override void SetText(float point)
     {
         _text.SetText(point.ToString("#,0"));
     }

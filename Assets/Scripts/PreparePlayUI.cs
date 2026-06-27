@@ -7,11 +7,17 @@ using UnityEngine.UI;
 
 public class PreparePlayUI : UIMonoBehaviour
 {
-
     [SerializeField]
     private Button _phaseStartButton = null;
 
     public event Action OnClickStartButton;
+
+    [SerializeField]
+    private PointDisplayer _pointDisplayer = null;
+    [SerializeField]
+    private PointDisplayer _clickPointDisplayer = null;
+    [SerializeField]
+    private PointPerSecDisplayer _ppsDisplayer = null;
 
     protected override void OnInit()
     {
@@ -28,6 +34,8 @@ public class PreparePlayUI : UIMonoBehaviour
         rectTransform.anchoredPosition = new Vector2(0, Screen.height);
         SetActive(true);
         _phaseStartButton.interactable = true;
+        
+        UpdateTexts();
 
         StartCoroutine(ShowAnim());
     }
@@ -85,6 +93,13 @@ public class PreparePlayUI : UIMonoBehaviour
         OnClickStartButton?.Invoke();
 
         AudioManager.Instance.PlaySE("ClickPointButton");
+    }
+
+    public void UpdateTexts()
+    {
+        _pointDisplayer.SetText(GameManager.Instance.GameData.Point);
+        _clickPointDisplayer.SetText(GameManager.Instance.GameData.ClickPoint);
+        _ppsDisplayer.SetText(GameManager.Instance.GameData.PointPerSecond);
     }
 
     private void OnDestroy()

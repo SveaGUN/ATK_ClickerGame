@@ -699,7 +699,7 @@ GameObject:
   - component: {fileID: 204553695713452756}
   - component: {fileID: 6643213810548260785}
   m_Layer: 5
-  m_Name: Item
+  m_Name: AddPointItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

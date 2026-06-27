@@ -2,9 +2,8 @@ using AkaneTools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class AddPointShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class AddPointShopItem : BaseShopItem, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private AddPointItemData _data = null;
@@ -13,29 +12,19 @@ public class AddPointShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private float _currentTotalPointPerSecond = 0;
 
     [SerializeField]
-    private TextMeshProUGUI _nameText = null;
-    [SerializeField]
     private TextMeshProUGUI _itemCountText = null;
     [SerializeField]
     private TextMeshProUGUI _ppsText = null;
-    [SerializeField]
-    private TextMeshProUGUI _costText = null;
 
-    private Button _button = null;
-
-    private void Awake()
+    protected override void OnInit()
     {
-        _button = GetComponent<Button>();
-
         _nameText.SetText(_data.ItemName);
         _itemCountText.SetText(_itemCount.ToString());
         _ppsText.SetText(_data.PointPerSecond.ToString());
         _costText.SetText(_data.ClacCost(_itemCount).ToString());
-
-        _button.onClick.AddListener(TryBuy);
     }
 
-    private void TryBuy()
+    protected override void TryBuy()
     {
         var gameData = GameManager.Instance.GameData;
         uint needCost = _data.ClacCost(_itemCount);
@@ -71,10 +60,5 @@ public class AddPointShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         
-    }
-
-    private void OnDestroy()
-    {
-        _button.onClick.RemoveAllListeners();
     }
 }
