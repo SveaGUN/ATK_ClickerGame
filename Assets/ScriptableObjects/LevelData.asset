@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   phaseDatas:
   - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
     _normaPoint: 1
+  - _timeLimit: 30
+    _normaPoint: 100
   - _timeLimit: 40
     _normaPoint: 200
   - _timeLimit: 50
