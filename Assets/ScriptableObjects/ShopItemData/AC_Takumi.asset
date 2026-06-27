@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3200d7f9b5e8fa4ca611a0e4f444c6c, type: 3}
-  m_Name: NekoChan
+  m_Name: AC_Takumi
   m_EditorClassIdentifier: Assembly-CSharp::AddPointItemData
-  _itemName: "\u30CD\u30B3\u3061\u3083\u3093"
-  _baseCost: 32000
-  _costGrowthRate: 1.06
-  _pointPerSecond: 30
+  _itemName: "\u5320"
+  _baseCost: 1600
+  _costGrowthRate: 1.08
+  _pointPerSecond: 13

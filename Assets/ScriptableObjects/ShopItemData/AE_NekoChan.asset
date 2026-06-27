@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3200d7f9b5e8fa4ca611a0e4f444c6c, type: 3}
-  m_Name: TodaysPoopy
+  m_Name: AE_NekoChan
   m_EditorClassIdentifier: Assembly-CSharp::AddPointItemData
-  _itemName: "\u4ECA\u65E5\u306E\u30DD\u30D4\u30FC"
-  _baseCost: 5000
-  _costGrowthRate: 1.07
-  _pointPerSecond: 4
+  _itemName: "\u30CD\u30B3\u3061\u3083\u3093"
+  _baseCost: 32000
+  _costGrowthRate: 1.06
+  _pointPerSecond: 30

@@ -10,17 +10,24 @@ public class ClickPointShopItem : BaseShopItem
     [SerializeField]
     private ClickPointItemData _data = null;
 
+    private int _itemCount = 0;
+    private bool _isSingleItem = false;
+
     protected override void OnInit()
     {
+        //購入数が1の時、制限に達する場合は一度しか買えないアイテムとみなす
+        _isSingleItem = _data.IsHitBuyLimit(1);
+
         _nameText.SetText(_data.ItemName);
         _discriptionText.SetText(_data.Discription);
-        _costText.SetText(_data.Cost.ToString());
+
+        _costText.SetText(_data.ClacCost(0).ToString());
     }
 
     protected override void TryBuy()
     {
         var gameData = GameManager.Instance.GameData;
-        uint needCost = _data.Cost;
+        uint needCost = _data.ClacCost(_itemCount);
 
         if (needCost > gameData.Point)
         {
@@ -31,12 +38,14 @@ public class ClickPointShopItem : BaseShopItem
         //購入分ポイントを消費する
         gameData.ClacSubtractPoint(needCost);
         AudioManager.Instance.PlaySE("BuyItem");
+        ++_itemCount;
 
         var clickPoint = _data.ClacClickPoint(gameData.ClickPoint);
         gameData.SetClickPoint(clickPoint);
 
         GameManager.Instance.UpdatePPUIText();
+        _costText.SetText(_data.ClacCost(_itemCount).ToString());
 
-        _button.interactable = false;
+        if (_data.IsHitBuyLimit(_itemCount)) { _button.interactable = false; }
     }
 }

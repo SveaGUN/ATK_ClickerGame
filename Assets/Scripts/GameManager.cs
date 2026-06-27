@@ -148,6 +148,10 @@ public class GameManager : MonoBehaviour
         if (_levelController.IsFinalPhase()) { _currentState = GameState.Clear; }
         else { _currentState = GameState.PreparePlay; }
 
+        //ボーナスポイント
+        //ノルマポイントのうち、残り時間の割合の半分を受け取る。最大で50%
+        GameData.ClacAddPoint(GameData.TimeLeft / GameData.TimeLimit * 0.5f * GameData.NormaPoint);
+
         _uiBlockInteractable.SetActive(true);
         _preparePlayUI.Show();
     }
@@ -159,6 +163,8 @@ public class GameManager : MonoBehaviour
 
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
+        _totalPointDiplayer.SetText(GameData.Point);
+        _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
 
         _preparePlayUI.Hide();
 
