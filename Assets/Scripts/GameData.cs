@@ -7,7 +7,7 @@ public class GameData
     public float Point { get; private set; } = 0f;
     public float PointPerSecond { get; private set; } = 0f;
     public float FactoryPoint { get; private set; } = 0f;
-    public float ClickPoint { get; private set; } = 0f;
+    public float ClickPoint { get; private set; } = 1f;
     public float OutputFactoryRate { get; private set; } = 1f;
 
     // n•b

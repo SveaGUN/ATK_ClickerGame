@@ -32,6 +32,11 @@ public class GameManager : MonoBehaviour
     private PreparePlayUI _preparePlayUI = null;
     public void UpdatePPUIText() => _preparePlayUI.UpdateTexts();
 
+    [SerializeField]
+    private GameOverUI _gameoverUI = null;
+    [SerializeField]
+    private GameClearUI _gameclearUI = null;
+
     private enum GameState
     {
         Intro,
@@ -66,6 +71,8 @@ public class GameManager : MonoBehaviour
         //初期化
         _uiBlockInteractable.Init();
         _preparePlayUI.Init();
+        _gameoverUI.Init();
+        _gameclearUI.Init();
 
         _levelController = new(_leveData);
         _levelController.SetStartPhase();
@@ -82,6 +89,8 @@ public class GameManager : MonoBehaviour
         //イベント登録
         _pointButton.OnClickPointButton += GameData.AddPointOnClick;
         _preparePlayUI.OnClickStartButton += NextPhase;
+        _gameoverUI.OnClickRetryButton += Retry;
+        _gameclearUI.OnClickRetryButton += Retry;
 
         //イントロ開始
         StartCoroutine(PhaseStartIntro());
@@ -105,14 +114,22 @@ public class GameManager : MonoBehaviour
 
                 if (GameData.IsTimeUp())
                 {
-                    OnPhasePassed();
-                    _currentState = GameState.GameOver;
+                    OnPhaseFailed();
                     return;
                 }
 
                 if (GameData.IsNormaClear())
                 {
-                    OnPhasePassed();
+                    if (_levelController.IsFinalPhase())
+                    {
+                        OnLevelClear();
+                    }
+                    else
+                    {
+                        _currentState = GameState.PreparePlay;
+
+                        OnPhasePassed();
+                    }
                     return;
                 }
 
@@ -145,8 +162,7 @@ public class GameManager : MonoBehaviour
     {
         //最終ラウンドではClear
         //それ以外はPreparePlay
-        if (_levelController.IsFinalPhase()) { _currentState = GameState.Clear; }
-        else { _currentState = GameState.PreparePlay; }
+
 
         //ボーナスポイント
         //ノルマポイントのうち、残り時間の割合の半分を受け取る。最大で50%
@@ -154,6 +170,21 @@ public class GameManager : MonoBehaviour
 
         _uiBlockInteractable.SetActive(true);
         _preparePlayUI.Show();
+    }
+
+    private void OnPhaseFailed()
+    {
+        _currentState = GameState.GameOver;
+
+        _uiBlockInteractable.SetActive(true);
+        _gameoverUI.Show();
+    }
+    private void OnLevelClear()
+    {
+        _currentState = GameState.Clear;
+
+        _uiBlockInteractable.SetActive(true);
+        _gameclearUI.Show();
     }
 
     private void NextPhase()
@@ -172,13 +203,35 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PhaseStartIntro());
     }
 
+    private void Retry()
+    {
+        _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
+
+        _levelController.SetStartPhase();
+        GameData = new(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
+
+        _pointButton.OnClickPointButton += GameData.AddPointOnClick;
+
+        _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
+        _normaDisplayer.SetText(GameData.NormaPoint);
+        _totalPointDiplayer.SetText(GameData.Point);
+        _factoryPointDiplayer.SetText(GameData.FactoryPoint);
+
+        if (_currentState == GameState.GameOver) { _gameoverUI.Hide(); }
+        else { _gameclearUI.Hide(); }
+
+        StartCoroutine(PhaseStartIntro(1f));
+    }
+
     private void OnDestroy()
     {
         _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
         _preparePlayUI.OnClickStartButton -= NextPhase;
+        _gameoverUI.OnClickRetryButton -= Retry;
+        _gameclearUI.OnClickRetryButton -= Retry;
     }
 
-    private IEnumerator PhaseStartIntro()
+    private IEnumerator PhaseStartIntro(float waitTime = 0f)
     {
         const float animTime = 2f;
         float addTimePerSecond = GameData.TimeLimit / animTime;
@@ -189,6 +242,8 @@ public class GameManager : MonoBehaviour
         float countUpTimeLimit = 0f;
         float currentAnimTime = 0f;
         float soundTimer = 0f;
+
+        if (waitTime > 0) { yield return new WaitForSeconds(waitTime); }
 
         while (animTime > currentAnimTime)
         {
