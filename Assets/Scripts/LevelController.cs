@@ -25,6 +25,7 @@ public class LevelController
     {
         _currentPhase = 0;
         var phase = _data.GetPhaseData(_currentPhase);
+        Debug.Log($"{_currentPhase}, {phase.TimeLimit}, {phase.NormaPoint}");
         _currentTimeLimit = phase.TimeLimit;
         _currentNormaPoint = phase.NormaPoint;
     }
@@ -37,12 +38,12 @@ public class LevelController
         ++_currentPhase;
         var phase = _data.GetPhaseData(_currentPhase);
 
-        if(phase == null)
+        if (phase == null)
         {
             Debug.LogWarning("PhaseData‚ªnull‚Å‚·");
 
-            _currentTimeLimit = phase.TimeLimit;
-            _currentNormaPoint = phase.NormaPoint;
+            _currentTimeLimit = 99999;
+            _currentNormaPoint = 99999;
 
             return;
         }

@@ -16,20 +16,20 @@ MonoBehaviour:
   - _timeLimit: 30
     _normaPoint: 100
   - _timeLimit: 30
-    _normaPoint: 100
+    _normaPoint: 1
+  - _timeLimit: 40
+    _normaPoint: 200
+  - _timeLimit: 50
+    _normaPoint: 300
+  - _timeLimit: 60
+    _normaPoint: 400
   - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
-  - _timeLimit: 30
-    _normaPoint: 100
+    _normaPoint: 500
+  - _timeLimit: 40
+    _normaPoint: 600
+  - _timeLimit: 50
+    _normaPoint: 700
+  - _timeLimit: 60
+    _normaPoint: 800
+  - _timeLimit: 100
+    _normaPoint: 900

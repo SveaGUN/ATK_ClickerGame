@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private UIBlockInteractable _uiBlockInteractable = null;
+    [SerializeField]
+    private PreparePlayUI _preparePlayUI = null;
 
     private enum GameState
     {
@@ -60,7 +62,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //初期化
         _uiBlockInteractable.Init();
+        _preparePlayUI.Init();
 
         _levelController = new(_leveData);
         _levelController.SetStartPhase();
@@ -68,14 +72,18 @@ public class GameManager : MonoBehaviour
         GameData = new(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
         //GameData = new GameData(1, 999999, 86400);
 
+        //テキストのセット
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
         _pointPerSecondDiplayer.SetText(GameData.PointPerSecond);
 
+        //イベント登録
         _pointButton.OnClickPointButton += GameData.AddPointOnClick;
+        _preparePlayUI.OnClickStartButton += NextPhase;
 
-        StartCoroutine(Intro());
+        //イントロ開始
+        StartCoroutine(PhaseStartIntro());
     }
 
     private void Update()
@@ -96,20 +104,14 @@ public class GameManager : MonoBehaviour
 
                 if (GameData.IsTimeUp())
                 {
-                    OnGamePassed();
+                    OnPhasePassed();
                     _currentState = GameState.GameOver;
                     return;
                 }
 
                 if (GameData.IsNormaClear())
                 {
-                    OnGamePassed();
-
-                    //最終ラウンドではClear
-                    //それ以外はPreparePlay
-                    if (_levelController.IsFinalPhase()) { _currentState = GameState.Clear; }
-                    else { _currentState = GameState.PreparePlay; }
-
+                    OnPhasePassed();
                     return;
                 }
 
@@ -131,23 +133,44 @@ public class GameManager : MonoBehaviour
     }
 
     //ゲームが始まった時の処理
-    private void OnGameStart()
+    private void OnPhaseStart()
     {
         AudioManager.Instance.PlayBGM("Main", 0.5f);
         _uiBlockInteractable.SetActive(false);
     }
 
-    private void OnGamePassed()
+    private void OnPhasePassed()
     {
+        //最終ラウンドではClear
+        //それ以外はPreparePlay
+        if (_levelController.IsFinalPhase()) { _currentState = GameState.Clear; }
+        else { _currentState = GameState.PreparePlay; }
+
         _uiBlockInteractable.SetActive(true);
+        _preparePlayUI.SetActive(true);
+    }
+
+    private void NextPhase()
+    {
+        _levelController.SetNextPhase();
+        GameData.SetNewNorma(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
+
+        _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
+        _normaDisplayer.SetText(GameData.NormaPoint);
+
+        _preparePlayUI.SetActive(false);
+
+        //イントロ開始
+        StartCoroutine(PhaseStartIntro());
     }
 
     private void OnDestroy()
     {
         _pointButton.OnClickPointButton -= GameData.AddPointOnClick;
+        _preparePlayUI.OnClickStartButton -= NextPhase;
     }
 
-    private IEnumerator Intro()
+    private IEnumerator PhaseStartIntro()
     {
         const float animTime = 2f;
         float addTimePerSecond = GameData.TimeLimit / animTime;
@@ -180,7 +203,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         _timeLeftDiplayer.SetText(GameData.TimeLimit);
-        OnGameStart();
+        OnPhaseStart();
         _currentState = GameState.Play;
     }
 }

@@ -9,7 +9,7 @@ public class LevelData : ScriptableObject
 
     public PhaseData GetPhaseData(int index)
     {
-        if (index > 0 || index >= phaseDatas.Length)
+        if (index < 0 || index >= phaseDatas.Length)
         {
             Debug.LogWarning("アクセス範囲外 : PhaseData");
             return null;
