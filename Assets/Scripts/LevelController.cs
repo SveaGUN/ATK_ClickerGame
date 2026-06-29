@@ -10,6 +10,8 @@ public class LevelController
     private float _currentTimeLimit = 0f;
     private float _currentNormaPoint = 0f;
 
+
+    public int CurrentPhase { get => _currentPhase + 1; }
     public float CurrentTimeLimit { get => _currentTimeLimit; }
     public float CurrentNormaPoint { get => _currentNormaPoint; }
 

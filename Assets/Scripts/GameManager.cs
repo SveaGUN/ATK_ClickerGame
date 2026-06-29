@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private TimeLeftDiplayer _timeLeftDiplayer = null;
     [SerializeField]
     private PointDisplayer _normaDisplayer = null;
+    [SerializeField]
+    private IntDisplayer _phaseDisplayer = null;
 
     [SerializeField]
     private UIBlockInteractable _uiBlockInteractable = null;
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour
         //GameData = new GameData(1, 999999, 86400);
 
         //テキストのセット
+        _phaseDisplayer.SetText(_levelController.CurrentPhase);
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
@@ -202,6 +205,7 @@ public class GameManager : MonoBehaviour
         _levelController.SetNextPhase();
         GameData.SetNewNorma(_levelController.CurrentNormaPoint, _levelController.CurrentTimeLimit);
 
+        _phaseDisplayer.SetText(_levelController.CurrentPhase);
         _timeLeftDiplayer.SetText(0);//イントロアニメーションで時間はセットするので、最初は0でok
         _normaDisplayer.SetText(GameData.NormaPoint);
         _totalPointDiplayer.SetText(GameData.Point);
