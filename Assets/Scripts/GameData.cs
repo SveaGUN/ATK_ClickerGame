@@ -9,6 +9,7 @@ public class GameData
     public float FactoryPoint { get; private set; } = 0f;
     public float ClickPoint { get; private set; } = 1f;
     public float OutputFactoryRate { get; private set; } = 1f;
+    public float CurrentPhaseBonusPoint { get; private set; } = 0f;
 
     // n秒
     public float TimeLimit { get; private set; } = 0f;
@@ -16,6 +17,7 @@ public class GameData
     public float TimeLeft { get; set; } = 0f;
     // n pt
     public float NormaPoint { get; set; } = 0f;
+    public float TimeRatio { get =>  TimeLimit / TimeLeft; }
 
     /// <summary>
     /// ゲームデータを初期化する
@@ -60,7 +62,8 @@ public class GameData
     {
         OutputFactoryRate += rate - 1f;
         FactoryPoint = PointPerSecond * OutputFactoryRate;
-    } 
+    }
+    public void CalcBonusPoint() => CurrentPhaseBonusPoint = TimeLeft / TimeLimit * 0.5f * NormaPoint;
     //======================================================
 
     //====================ポイント加算関数====================

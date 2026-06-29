@@ -19,10 +19,15 @@ public class PreparePlayUI : UIMonoBehaviour
     [SerializeField]
     private PointPerSecDisplayer _ppsDisplayer = null;
 
+    [SerializeField]
+    private BonusUIAnim _bonusUIAnim = null;
+
     protected override void OnInit()
     {
         _phaseStartButton.onClick.AddListener(OnClick);
         _phaseStartButton.interactable = false;
+
+        _bonusUIAnim.Init();
 
         SetActive(false);
     }
@@ -34,7 +39,7 @@ public class PreparePlayUI : UIMonoBehaviour
         rectTransform.anchoredPosition = new Vector2(0, Screen.height);
         SetActive(true);
         _phaseStartButton.interactable = true;
-        
+
         UpdateTexts();
 
         StartCoroutine(ShowAnim());
@@ -58,6 +63,8 @@ public class PreparePlayUI : UIMonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
+
+        _bonusUIAnim.Show();
     }
 
     public void Hide()
@@ -85,6 +92,8 @@ public class PreparePlayUI : UIMonoBehaviour
         }
 
         _phaseStartButton.interactable = false;
+
+        _bonusUIAnim.Hide();
         SetActive(false);
     }
 

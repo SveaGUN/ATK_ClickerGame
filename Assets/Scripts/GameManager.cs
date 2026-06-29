@@ -176,10 +176,9 @@ public class GameManager : MonoBehaviour
         //最終ラウンドではClear
         //それ以外はPreparePlay
 
-
         //ボーナスポイント
         //ノルマポイントのうち、残り時間の割合の半分を受け取る。最大で50%
-        GameData.ClacAddPoint(GameData.TimeLeft / GameData.TimeLimit * 0.5f * GameData.NormaPoint);
+        GameData.CalcBonusPoint();
 
         _uiBlockInteractable.SetActive(true);
         _preparePlayUI.Show();
